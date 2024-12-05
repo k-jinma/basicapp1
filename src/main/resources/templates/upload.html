@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSVファイル内容</title>
+</head>
+<body>
+    <h1>CSVファイル内容</h1>
+    <table border="1">
+        <thead>
+            <tr th:if="${csvData.size() > 0}">
+                <th th:each="cell : ${csvData[0]}" th:text="${cell}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row, rowStat : ${csvData}">
+                <td th:if="${rowStat.index > 0}" th:each="cell : ${row}" th:text="${cell}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></div>
+</body>
+</html>
