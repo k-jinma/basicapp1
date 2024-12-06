@@ -8,10 +8,17 @@
 <body>
     <h1>BasicApp TOP</h1>
     <!-- CSVファイルアップロードフォームの追加 -->
+     <h2>CSVファイルアップロード</h2>
     <form action="/basicapp/upload" method="post" enctype="multipart/form-data">
         <label for="file">CSVファイルを選択:</label>
         <input type="file" id="file" name="file" accept=".csv">
         <button type="submit">アップロード</button>
+    </form>
+
+    <!-- ダウンロードボタンの追加 -->
+    <h2>CSVファイルダウンロード</h2>
+    <form action="/basicapp/download" method="get">
+        <button type="submit">ダウンロード</button>
     </form>
 </body>
 </html>
