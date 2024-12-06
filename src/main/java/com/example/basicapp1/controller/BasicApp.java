@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.basicapp1.service.MessageService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +33,9 @@ import java.util.Optional;
 @RequestMapping("/basicapp")
 public class BasicApp {
 
+    @Autowired
+    private MessageService messageService;
+    
     /** 
      * ホーム画面 
      * @GetMappingはGETリクエストを受け取るアノテーション
@@ -49,8 +56,8 @@ public class BasicApp {
 
         // 拡張子がcsvでない場合はエラーメッセージを表示
         Optional<String> optionalFilename = Optional.ofNullable(file.getOriginalFilename());
-        if ( optionalFilename.isPresent() || !optionalFilename.get().endsWith(".csv") ) {
-            model.addAttribute("errorMessage", "CSVファイルを選択してください。");
+        if ( !optionalFilename.isPresent() || !optionalFilename.get().endsWith(".csv") ) {
+            model.addAttribute("errorMessage", messageService.getMessage("error.csv.file.required"));
             return "index";
         }
 
@@ -64,13 +71,14 @@ public class BasicApp {
         } catch (IOException e){
             // csvファイルの読み込みエラー処理
             // エラーメッセージをモデルに追加
-            model.addAttribute("errorMessage", "CSVファイルの読み込みに失敗しました。");
-
+            model.addAttribute("errorMessage", messageService.getMessage("error.csv.read.failure"));
+            return "index";
 
         } catch (Exception e) {
             // その他のエラー処理
             // エラーメッセージをモデルに追加
-            model.addAttribute("errorMessage", "CSVファイルのアップロードに失敗しました。");
+            model.addAttribute("errorMessage", messageService.getMessage("error.csv.upload.failure"));
+            return "index";
 
         }
         model.addAttribute("csvData", csvData); // csvDataをモデルに追加

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,8 @@
 <body>
     <h1>BasicApp TOP</h1>
     <!-- CSVファイルアップロードフォームの追加 -->
-     <h2>CSVファイルアップロード</h2>
+    <h2>CSVファイルアップロード</h2>
+    <span th:text="${errorMessage}"></span>
     <form action="/basicapp/upload" method="post" enctype="multipart/form-data">
         <label for="file">CSVファイルを選択:</label>
         <input type="file" id="file" name="file" accept=".csv">
