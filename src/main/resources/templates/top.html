@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,5 +7,20 @@
 </head>
 <body>
     <h1>TOP</h1>
+    <div id="itemList" th:each="item : ${itemList}">
+        <p th:text="${item.id}"></p>
+        <p th:text="${item.name}"></p>
+        <p th:text="${item.price}"></p>
+    </div>
+
+    <p th:text="${message}"></p>
+    <div th:if="${history != null}">
+        <p th:text="${history.id}"></p>
+        <p th:text="${history.customerId}"></p>
+        <p th:text="${history.itemId}"></p>
+        <p th:text="${history.purchaseDate}"></p>
+        <p th:text="${history.quantity}"></p>
+    </div>
+
 </body>
 </html>
