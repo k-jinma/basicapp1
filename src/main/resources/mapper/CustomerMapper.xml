@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.basicapp1.mapper.CustomerMapper">
+
+    <!-- カスタマー情報を取得 -->
+    <select id="getCustomerById" resultMap="CustomerResultMap">
+        SELECT * FROM customer WHERE id = #{id}
+    </select>
+
+    <!-- アイテム情報を取得-->
+    <select id="getAllItems" resultMap="ItemResultMap">
+        SELECT * FROM item
+    </select>
+
+    <!-- 購入履歴を取得 -->
+    <select id="getHistoryById" resultMap="HistoryResultMap">
+        SELECT h.purchase_id, h.customer_id, h.item_id, h.quantity
+        FROM history h
+        LEFT JOIN customer c ON h.customer_id = c.id
+        LEFT JOIN item i ON h.item_id = i.id
+        WHERE h.purchase_id = #{id}
+    </select>
+
+    <resultMap id="CustomerResultMap" type="com.example.basicapp1.entity.CustomerEntity">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <resultMap id="ItemResultMap" type="com.example.basicapp1.entity.ItemEntity">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <resultMap id="HistoryResultMap" type="com.example.basicapp1.entity.HistoryEntity">
+        <id property="id" column="purchase_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="quantity" column="quantity"/>
+        <association property="customer" javaType="com.example.basicapp1.entity.CustomerEntity" resultMap="CustomerResultMap"/>
+        <collection property="items" ofType="com.example.basicapp1.entity.ItemEntity">
+            <id property="id" column="item_id"/>
+            <result property="name" column="item_name"/>
+            <result property="price" column="item_price"/>
+        </collection>
+    </resultMap>
+
+</mapper>
